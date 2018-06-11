@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title> Turba: Future of composting </title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Turba: composting in Lebanon" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <link rel="icon" href="../static/image/icon.ico" >
+    <link rel="stylesheet" href="../static/css/style.css" />
+
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class = "image-area">
+        <img src ="../static/image/logo2.png",style='width:100px;height:50px;' />
+      </div>
+      <div class = "subtitle">
+        <p>
+          The Future of Composting
+        </p> </div>
+      <div class ="purpose"><p>
+        Sources of Green and Brown Wastes in Aley city:
+      </p> </div>
+      <div class="map">
+          <iframe src="/map" height="400pxs" width="70%" ></iframe>
+      </div>
+
+      <div class="input">
+        <div class="text">
+          <h1 class="title"> Adding New Locations </h1>
+          <h2 class="explain"> Please fill the entries below</h2>
+        </div>
+        <div class="entries">
+          <form method="POST">
+            <div class="Name">
+              <h3 class="entry_text">Name of Source</h3>
+              <input title="Name of Location" placeholder="Location Name" name="location_name" required />
+            </div>
+            <div class="Location">
+              <h3 class="entry_text">Specify Location Coordinates</h3>
+              <input title="Location Coordinates" placeholder="eg: 30,45" name="location_coord" required />
+            </div>
+            <div class="resource">
+              <h3 class="entry_text">Resource Type</h3>
+
+                <select name="location_resource">
+                  <option value="Green">Green</option>
+                  <option value="Brown">Brown</option>
+                </select>
+            <div class="quantities">
+              <h3 class="entry_text">Quantities</h3>
+                <input title="quantities" type="number" placeholder="quantities" name="location_quantities" value="0" required  />
+            </div>
+            <br /><br />
+                <input type="submit" />
+
+
+          </form>
+            </div>
+        </div>
+      </div>
+
+      <div class="table">
+        <br /><br />
+
+        {{table|safe}}
+        {% include table ignore missing %}
+        <br /><br />
+      </div>
+    </div>
+  </body>
+
+
+</html>
