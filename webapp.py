@@ -7,7 +7,8 @@ from sqlalchemy.sql import func
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/mapping_data'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/mapping_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fhjufkgdwehwtu:ea7af78868816f4d0c810fe7fd3438b466ea80f3572e409550edc4b55da0c872@ec2-54-204-18-53.compute-1.amazonaws.com:5432/d4j4eff77bq1ul?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 db.init_app(app)
