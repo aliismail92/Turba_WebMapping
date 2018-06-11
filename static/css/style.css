@@ -68,3 +68,8 @@ th {
     color: white;
     text-align: center;
 }
+
+.message{
+  font-size: 15px;
+  color: #ff9999;
+}

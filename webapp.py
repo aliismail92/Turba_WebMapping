@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,redirect
+from flask import Flask, render_template,request,redirect,flash
 import folium
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy
@@ -7,14 +7,16 @@ from sqlalchemy.sql import func
 
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/mapping_data'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fhjufkgdwehwtu:ea7af78868816f4d0c810fe7fd3438b466ea80f3572e409550edc4b55da0c872@ec2-54-204-18-53.compute-1.amazonaws.com:5432/d4j4eff77bq1ul?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/mapping_data'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fhjufkgdwehwtu:ea7af78868816f4d0c810fe7fd3438b466ea80f3572e409550edc4b55da0c872@ec2-54-204-18-53.compute-1.amazonaws.com:5432/d4j4eff77bq1ul?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 db.init_app(app)
 db.app=app
 
 #app.config.from_pyfile('./config.py')
+global message_coord
+message_coord = ""
 
 class Data(db.Model):
     __tablename__="data"
@@ -32,6 +34,7 @@ class Data(db.Model):
 
 def Mapping():
     global fig
+
     with app.app_context():
         count = db.session.query(Data.name_).count()
 
@@ -44,28 +47,29 @@ def Mapping():
 
             name = db.session.query(Data.name_)[i][0]
             coord= db.session.query(Data.coord_)[i][0].split(",")
-            lat = float(coord[0])
-            lon = float(coord[1])
-            res = db.session.query(Data.source_)[i][0]
-            #print (name)
-            #rtype=list(data[4])
 
+            try:
 
-            #print(name)
-            if res == "Brown":
-                html ='<p>Resource : Brown</p>'
-                test = folium.Html("Name: "+name+html, script=True)
-                popup = folium.Popup(test)
+                lat = float(coord[0])
+                lon = float(coord[1])
+                res = db.session.query(Data.source_)[i][0]
+                print (lat+lon)
 
-                carbsour.add_child(folium.Marker(location=[lat, lon],popup = popup,icon=folium.Icon(color='darkred')))
+                if res == "Brown":
+                    html ='<p>Resource : Brown</p>'
+                    test = folium.Html("Name: "+name+html, script=True)
+                    popup = folium.Popup(test)
 
-            elif res == "Green":
-                html ='<p>Resource : Green</p>'
-                test = folium.Html("Name: "+name+html, script=True)
-                popup = folium.Popup(test)
-                popup = folium.Popup(test, max_width=400)
-                org.add_child(folium.Marker(location=[lat, lon],popup =popup,icon=folium.Icon(color='green')))
+                    carbsour.add_child(folium.Marker(location=[lat, lon],popup = popup,icon=folium.Icon(color='darkred')))
 
+                elif res == "Green":
+                    html ='<p>Resource : Green</p>'
+                    test = folium.Html("Name: "+name+html, script=True)
+                    popup = folium.Popup(test)
+                    popup = folium.Popup(test, max_width=400)
+                    org.add_child(folium.Marker(location=[lat, lon],popup =popup,icon=folium.Icon(color='green')))
+            except:
+                message_coord= "Warning: Coordinates are not numerical values"
         map.add_child(org)
         map.add_child(carbsour)
         map.add_child(folium.LayerControl())
@@ -98,15 +102,18 @@ def index():
         quantities = request.form["location_quantities"]
 
         if db.session.query(Data).filter(Data.name_==name).count()==0:
-            data = Data(name, coord, resource, quantities)
-            db.session.add(data)
-            db.session.commit()
+                data = Data(name, coord, resource, quantities)
+                db.session.add(data)
+                db.session.commit()
 
-            return redirect("/")
+        else:
+            error = "Name Already Exists"
+            print(error)
+            return render_template("index.html", text="Name Already Exists",table = table.to_html())
     Table()
-        #add error if name exists
-    print (table)
-    return render_template("index.html", table = table.to_html())
+    print(message_coord)
+    return render_template("index.html",text = message_coord, table = table.to_html())
+
 
 @app.route('/map')
 def map():
