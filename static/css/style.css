@@ -4,13 +4,13 @@ body{
   font-size: 16px;
   font-family: Arial,Helvetica,sans-serif;
   padding:0px;/* get rid of default padding*/
-  margin:0px;
+  margin:15px;
 }
 .purpose{
   color:black;
   margin-top: 30px;
   font-weight: bold;
-  font-size: 14;
+  font-size: 18px;
 
 }
 .image-area{
@@ -32,7 +32,7 @@ color: black;
   float: right;
   position: absolute;
   right: 30px;
-  top: 200px;
+  top: 180px;
 }
 
 .entry_text{
@@ -40,11 +40,11 @@ color: black;
 
 }
 .title{
-  font-size: 25px;
+  font-size: 15px;
 }
 
 .explain{
-  font-size: 20px;
+  font-size: 15px;
 }
 
 
@@ -54,23 +54,32 @@ color: black;
 }
 
 th, td {
-  border-bottom: 1px solid #ddd;
+
   border-collapse: collapse;
+  padding:8px;
 }
 
 table.DataFrame{
     border-collapse: collapse;
 }
-tr:hover {background-color:white;}
-tr:nth-child(even) {background-color: #f2f2f2;}
+
+table{
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  width: 50%;
+}
 th {
     background-color: #4CAF50;
     color: white;
     text-align: center;
+
 }
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover {background-color:#99e699;}
+
 
 .message{
-  
+
   font-size: 15px;
   color: #ff9999;
 }

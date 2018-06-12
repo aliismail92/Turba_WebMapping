@@ -53,7 +53,6 @@ def Mapping():
                 lat = float(coord[0])
                 lon = float(coord[1])
                 res = db.session.query(Data.source_)[i][0]
-                print (lat+lon)
 
                 if res == "Brown":
                     html ='<p>Resource : Brown</p>'
@@ -79,15 +78,15 @@ def Table():
     global table
     with app.app_context():
         count = db.session.query(Data.name_).count()
-        table = pd.DataFrame(columns=["Name","Coordinates","Resrource","Quantities"], index = list(range(count)))
+        table = pd.DataFrame(columns=["Name","Coordinates","Resrource"], index = list(range(count)))
         for i in range(count):
 
             name = db.session.query(Data.name_)[i][0]
             coord= db.session.query(Data.coord_)[i][0]
             res = db.session.query(Data.source_)[i][0]
-            quan = db.session.query(Data.quantities_)[i][0]
+            #quan = db.session.query(Data.quantities_)[i][0]
 
-            table.loc[i]=[name,coord,res,quan]
+            table.loc[i]=[name,coord,res]
     return table
 
 app= Flask(__name__)
@@ -108,7 +107,6 @@ def index():
 
         else:
             error = "Name Already Exists"
-            print(error)
             return render_template("index.html", text="Name Already Exists",table = table.to_html())
     Table()
     print(message_coord)
