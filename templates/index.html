@@ -38,7 +38,7 @@
       <div class="col-md-4 col-sm-12 ml-auto">
         <div class="card">
           <div class="card-header">
-            Fill Entries below to Add New Locations:
+            Fill Entries Below to Add New Locations:
           </div>
           <div class="card-body">
             <form class="Entry" method="POST" id="entry">
@@ -59,7 +59,7 @@
               </div>
 
               <div class="form-group">
-                <label for="quantities">Quantities</label>
+                <label for="quantities">Quantities:</label>
                 <input type="number" name="location_quantities" class="form-control" id="quantities" value="0">
               </div>
               <button type="submit" class="btn btn-primary" name="action" value="submit">Submit</button>
@@ -77,12 +77,12 @@
             <label for="edit-name" class="mr-sm-2">Name:</label>
             <input type="text" size="10" class="form-control mb-2 mr-sm-2" name="edit_name">
             <label for="edit-column" class="mr-sm-2">Column:</label>
-            <select name="edit_column" class="form-control ml-2" name="edit-column">
+            <select name="edit_column" class="form-control ml-sm-2" name="edit-column">
               <option value="name_">Name</option>
               <option value="coord_">Coordinates</option>
               <option value="source_">Resource</option>
             </select>
-            <label for="edit-value" class="mr-sm-2 ml-2">Value:</label>
+            <label for="edit-value" class="mr-sm-2 mt-2 ml-sm-2">Value:</label>
             <input type="text" size="5" class="form-control mb-2 mr-sm-2" name="edit_value">
             <button type="submit" class="btn btn-primary mb-2" name="action" value="edit">Edit</button>
             <button type="submit" class="btn btn-primary ml-2 mb-2" name="action" value="delete">Delete</button>
