@@ -93,23 +93,46 @@ app= Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-
     if request.method=='POST':
-        name = request.form["location_name"]
-        coord = request.form["location_coord"]
-        resource = request.form["location_resource"]
-        quantities = request.form["location_quantities"]
 
-        if db.session.query(Data).filter(Data.name_==name).count()==0:
-                data = Data(name, coord, resource, quantities)
-                db.session.add(data)
+        if request.form['action']=="submit":
+
+            name = request.form["location_name"]
+            coord = request.form["location_coord"]
+            resource = request.form["location_resource"]
+            quantities = request.form["location_quantities"]
+
+            if db.session.query(Data).filter(Data.name_==name).count()==0:
+                    data = Data(name, coord, resource, quantities)
+                    db.session.add(data)
+                    db.session.commit()
+
+            else:
+                error = "Name Already Exists"
+                return render_template("index.html", text="Name Already Exists",table = table.to_html())
+
+        elif request.form['action']=="edit":
+            name = request.form["edit_name"]
+            column = request.form["edit_column"]
+            value = request.form["edit_value"]
+            db.session.query(Data).\
+            filter(Data.name_ == name).\
+            update({column: (value)})
+            db.session.commit()
+
+
+        elif request.form['action']=="delete":
+            edit_name=request.form["edit_name"]
+            if db.session.query(Data).filter(Data.name_==edit_name).count()!=0:
+                row= db.session.query(Data).filter(Data.name_==edit_name).first()
+                db.session.delete(row)
                 db.session.commit()
+                return redirect('/')
+            else:
+                flash("Name Doesn't Exist")
 
-        else:
-            error = "Name Already Exists"
-            return render_template("index.html", text="Name Already Exists",table = table.to_html())
     Table()
-    print(message_coord)
+
     return render_template("index.html",text = message_coord, table = table.to_html())
 
 
@@ -120,4 +143,5 @@ def map():
     return fig.get_root().render()
 
 if __name__=="__main__":
+    app.secret_key = 'super secret key'
     app.run(debug=True)
